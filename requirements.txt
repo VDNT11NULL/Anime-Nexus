@@ -1,0 +1,6 @@
+numpy
+pandas
+setuptools
+logging
+google-cloud-storage
+pyyaml
