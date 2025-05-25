@@ -1,1 +1,4 @@
 Local_notes/
+logs/
+notebooks/normalized_embeddings.pt
+notebooks/normalized_embeddings.h5

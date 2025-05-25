@@ -1,0 +1,13 @@
+2025-05-25 12:17:43,631 - INFO - Successfully read the YAML CONFIG file from config/config.yaml
+2025-05-25 12:17:43,631 - INFO - Currently reading yaml using code from /home/vdnt/Documents/ML/MLOps/Anime_Recommendation_Sys
+2025-05-25 12:18:05,380 - INFO - Successfully read the YAML CONFIG file from /home/vdnt/Documents/ML/MLOps/Anime_Recommendation_Sys/config/config.yaml
+2025-05-25 12:18:05,380 - INFO - Currently reading yaml using code from /home/vdnt/Documents/ML/MLOps/Anime_Recommendation_Sys
+2025-05-25 12:18:05,381 - INFO - Successfully read the YAML CONFIG file from /home/vdnt/Documents/ML/MLOps/Anime_Recommendation_Sys/config/config.yaml
+2025-05-25 12:18:05,381 - INFO - Currently reading yaml using code from /home/vdnt/Documents/ML/MLOps/Anime_Recommendation_Sys
+2025-05-25 12:18:05,381 - INFO - Data Ingestion started with bucket anime-rec-bucket1 for files anime.csv, anime_with_synopsis.csv, animelist.csv
+2025-05-25 12:18:05,381 - INFO - Starting Data Ingestion process
+2025-05-25 12:18:08,734 - INFO - Downloaded anime.csv from GCP bucket anime-rec-bucket1
+2025-05-25 12:18:11,509 - INFO - Downloaded anime_with_synopsis.csv from GCP bucket anime-rec-bucket1
+2025-05-25 12:26:27,501 - INFO - Large file animelist.csv detected, using only 6000000 data points
+2025-05-25 12:26:27,515 - INFO - Data Ingestion finished successfully!
+2025-05-25 12:26:27,516 - INFO - Finally, data ingestion finished

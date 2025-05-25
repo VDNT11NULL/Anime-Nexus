@@ -1,8 +1,13 @@
-import os 
+import os
+import sys
 import pandas as pd
+import yaml
+
+old_paths = [p for p in sys.path if "Hotel_Cancellation" in p]
+for path in old_paths:
+    sys.path.remove(path)
 from src.logger import get_logger
 from src.custom_exception import CustomException
-import yaml
 
 logger = get_logger(__name__)
 
@@ -13,7 +18,8 @@ def read_yaml(file_path):
         
         with open(file_path, 'r') as yaml_file:
             config = yaml.safe_load(yaml_file)
-            logger.info("Successfully read the YAML CONFIG file")
+            logger.info(f"Successfully read the YAML CONFIG file from {file_path}")
+            logger.info(f"Currently reading yaml using code from {os.getcwd()}")
             return config
 
     except Exception as e:

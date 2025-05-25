@@ -1,10 +1,9 @@
-import os 
+import os
 
-####################### DATA INGESTION PATH ################
+# Define BASE_DIR as the project root (directory containing paths_config.py)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(BASE_DIR)  # Go up one level to the project root (Anime_Recommendation_Sys)
 
-print("USING PATHS CONFIG FROM:", __file__)
-RAW_DIR = "artifacts/raw"
-
-# CONFIG_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'config', 'config.yaml'))
-CONFIG_PATH = "config/config.yaml"
-
+# Define paths
+CONFIG_PATH = os.path.join(BASE_DIR, "config", "config.yaml")
+RAW_DIR = os.path.join(BASE_DIR, "artifacts", "raw")

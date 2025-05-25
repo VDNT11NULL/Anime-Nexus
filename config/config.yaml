@@ -1,8 +1,8 @@
-data_injestion:
+data_ingestion:
+  project_id: "anime-rec-sys"
   bucket_name: "anime-rec-bucket1"
-  num_rows_to_select : 6000000
+  num_rows_to_select: 6000000
   bucket_file_names:
     - "anime.csv"
     - "anime_with_synopsis.csv"
     - "animelist.csv"
-  
