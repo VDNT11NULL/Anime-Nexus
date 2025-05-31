@@ -94,8 +94,8 @@ class DataProcessor:
             y = self.rating_df['rating'].values
 
             X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
-            self.Xtrain_array = X_train
-            self.Xtest_array = X_test
+            self.Xtrain_array = [X_train[:, 0], X_train[:, 1]]
+            self.Xtest_array = [X_test[:, 0], X_test[:, 1]]
             self.Ytrain = Y_train
             self.Ytest = Y_test
             logger.info("Data split into train and test sets successfully ...")
@@ -105,4 +105,34 @@ class DataProcessor:
             logger.error(f"Failed to split data for rating_df")
             raise CustomException("Failed to split data", sys)
         
-    
+    def save_mappings(self):
+        try:
+            mappings = {
+                'userId_2_encodedUserId_mapping': self.userId_2_encodedUserId_mapping,
+                'encodedUserId_2_userId_mapping': self.encodedUserId_2_userId_mapping,
+                'animeId_2_encodedAnimeId_mapping': self.animeId_2_encodedAnimeId_mapping,
+                'encodedAnimeId_2_animeId_mapping': self.encodedAnimeId_2_animeId_mapping
+            }
+            for name, mapping in mappings.items():
+                joblib.dump(mapping, os.path.join(self.output_dir, f"{name}.pkl"))
+                logger.info(f"Saved {name} mapping successfully ...")
+
+        except Exception as e:
+            logger.error(f"Error at saving mappings: {e}")
+            raise CustomException("Failed to save mappings", sys)
+               
+    def save_data(self):
+        try:
+            np.save(os.path.join(self.output_dir, 'Xtrain_array.npy'), self.Xtrain_array)
+            np.save(os.path.join(self.output_dir, 'Xtest_array.npy'), self.Xtest_array)
+            np.save(os.path.join(self.output_dir, 'Ytrain.npy'), self.Ytrain)
+            np.save(os.path.join(self.output_dir, 'Ytest.npy'), self.Ytest)
+            logger.info("Saved train and test data successfully ...")
+        
+            self.rating_df.to_csv(os.path.join(PROCESSED_DIR, "processed_rating_df.csv"), index=False)
+        
+        except Exception as e:
+            logger.error(f"Error at saving data: {e}")
+            raise CustomException("Failed to save data", sys)
+        
+        
