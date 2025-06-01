@@ -135,4 +135,10 @@ class DataProcessor:
             logger.error(f"Error at saving data: {e}")
             raise CustomException("Failed to save data", sys)
         
-        
+    def process_anime_data(self):
+        try:
+            
+
+    def run(self):
+        try:
+            self.load_data(cols2use=[''])
