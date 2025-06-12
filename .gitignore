@@ -1,4 +1,17 @@
-Local_notes/
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Model & artifact files
+*.pt
+*.pkl
+*.npy
+*.h5
+
+# Logs and local notes
 logs/
+Local_notes/
+
+# Ignore specific files
 notebooks/normalized_embeddings.pt
 notebooks/normalized_embeddings.h5

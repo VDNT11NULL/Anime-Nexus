@@ -39,7 +39,7 @@ class DataProcessor:
             logger.error(f"Error at data loading in processing {e}")
             raise CustomException("Failed to load input csv")
         
-    def filter_exp_users(self, NUM_REVIEW_THRESHOLD):
+    def filter_exp_users(self, NUM_REVIEW_THRESHOLD=5):
         '''
         Filters out experienced users who have given more than a certain number of reviews.
         Args:
@@ -49,7 +49,10 @@ class DataProcessor:
         '''
         try:
             n_ratings = self.rating_df["user_id"].value_counts()
-            rating_df = rating_df[rating_df['user_id'].isin(n_ratings[n_ratings >= NUM_REVIEW_THRESHOLD].index)]
+            # print(f"Number of users before filtering: {len(self.rating_df['user_id'].unique())}")
+            # print(f"Number of users with more than {NUM_REVIEW_THRESHOLD} reviews: {len(n_ratings[n_ratings >= NUM_REVIEW_THRESHOLD])}")
+            self.rating_df = self.rating_df[self.rating_df['user_id'].isin(n_ratings[n_ratings >= NUM_REVIEW_THRESHOLD].index)]
+            # print(f"Filtered out users with less than {NUM_REVIEW_THRESHOLD} reviews. Remaining users: {len(self.rating_df['user_id'].unique())}")
             logger.info("Filtered data successfully ...")
 
         except Exception as e:
@@ -80,6 +83,7 @@ class DataProcessor:
             self.encodedUserId_2_userId_mapping = {idx: user_id for user_id, idx in self.userId_2_encodedUserId_mapping.items()}
 
             self.animeId_2_encodedAnimeId_mapping = {anime_id: idx for idx, anime_id in enumerate(self.rating_df['anime_id'].unique())}
+
             self.encodedAnimeId_2_animeId_mapping = {idx: anime_id for anime_id, idx in self.animeId_2_encodedAnimeId_mapping.items()}
 
             logger.info("Encoded user and anime IDs successfully ...")
@@ -90,7 +94,9 @@ class DataProcessor:
     def split_data(self, test_size, random_state=11):
         try:
             self.rating_df = self.rating_df.sample(frac=1, random_state=random_state).reset_index(drop=True)
-            X = self.rating_df[['encoded_userID', 'encoded_animeID']].values
+            ## DEBug
+            print(self.rating_df.columns)
+            X = self.rating_df[['user_id', 'anime_id']].values
             y = self.rating_df['rating'].values
 
             X_train, X_test, Y_train, Y_test = train_test_split(X, y, test_size=test_size, random_state=random_state)
@@ -135,10 +141,61 @@ class DataProcessor:
             logger.error(f"Error at saving data: {e}")
             raise CustomException("Failed to save data", sys)
         
-    def process_anime_data(self):
+    def process_anime_data(self): # for anime.csv
         try:
+            self.anime_df = pd.read_csv(ANIME_CSV)
+            # print(f'anime_df columns: {self.anime_df.columns}')
+
+            self.anime_df = self.anime_df.replace("Unknown", np.nan)
+
+            self.synopsis_df = pd.read_csv(SYNOPSIS_CSV)
+
+            def get_anime_name(anime_id): ## org anime id (not the encoded ones from animelist)
+                try:
+                    row = self.anime_df[self.anime_df.MAL_ID == anime_id]
+                    name = row["English name"].values[0]
+                    if pd.isna(name):
+                        name = row["Name"].values[0]
+                    return name
+                except:
+                    print("error while retriving anime name")
+    
+            
+            self.anime_df["eng_version"] = self.anime_df.MAL_ID.apply(lambda x: get_anime_name(x))
+            self.anime_df = self.anime_df[["MAL_ID", "eng_version", "Score", "Genres", "Episodes", "Type", "Studios", "Completed", "Rating", "Producers", "Duration", "Members"]]
+            # print(f'anime_df columns: {self.anime_df.columns}')
+            self.anime_df.sort_values(by=["Score"], inplace=True, ascending=False, kind="quicksort", na_position="last")
+
+            self.anime_df.to_csv(PROCESSED_ANIME_DF, index=False)
+            self.synopsis_df.to_csv(PROCESSED_SYNOPSIS_DF, index=False)
+            logger.info("Saved processed anime and synopsis data successfully ...")
+            logger.info("Processed anime data successfully ...")
+
+        except Exception as e:
+            logger.error(f"Error at processing anime data: {e}")
+            raise CustomException("Failed to process anime data", sys)            
             
 
     def run(self):
         try:
-            self.load_data(cols2use=[''])
+            self.load_data(cols2use=['user_id', 'anime_id', 'rating'])
+            self.filter_exp_users(NUM_REVIEW_THRESHOLD=5)
+            self.scale_ratings()
+            self.encode_user_anime_ids()
+            self.split_data(test_size=0.2)
+            self.save_mappings()
+            self.save_data()
+            self.process_anime_data()
+            logger.info("Data processing completed successfully ...")
+
+        except Exception as e:
+            logger.error(f"Error during data loading and filtering: {e}")
+            raise CustomException("Failed to load and filter data", sys)
+        
+        
+if __name__ == "__main__":
+    input_file = ANIMELIST_CSV  # rating data file
+    output_dir = PROCESSED_DIR  # directory to save processed data
+    
+    processor = DataProcessor(input_file, output_dir)
+    processor.run()
