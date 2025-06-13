@@ -1,0 +1,71 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Hybrid Anime Recommendation System</title>
+</head>
+<body>
+
+    <div class="form-conatiner">
+        <h2>Welocome, </h2>
+        <form action="/", method="POST">
+            <label for="user_id"> Enter your User ID</label>
+            <input type="number" id="user_id" name="user_id" required>
+            <button type="submit">Generate Recommendations</button>
+        </form>
+
+        {% if recommendations %}
+        <div class="results-container">
+            <h2>Your Anime Recommendations are :-:</h2>
+            <ul>
+                {% for anime in recommendations %}
+                <li>{{ anime }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+
+    </div>
+    
+</body>
+</html>
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hybrid Anime Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="container">
+        <header>
+            <h1>Hybrid Anime Recommender</h1>
+            <p>Discover your next anime adventure!</p>
+        </header>
+        <div class="form-container">
+            <form id="recommendation-form">
+                <label for="user_id">Enter Your User ID</label>
+                <input type="number" id="user_id" name="user_id" required min="1" placeholder="e.g., 15597">
+                <button type="submit" id="submit-btn">Get Recommendations <i class="fas fa-arrow-right"></i></button>
+            </form>
+            <div id="error-message" class="error-container"></div>
+        </div>
+        <div id="loading" class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i> Loading Recommendations...
+        </div>
+        <div id="recommendations" class="recommendations-container"></div>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

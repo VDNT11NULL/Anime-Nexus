@@ -25,6 +25,24 @@ if __name__ == "__main__":
     #test getuserrecommendations
     # print(get_user_recommendations(simiusers, user_pref_tmp, PROCESSED_ANIME_DF, PROCESSED_SYNOPSIS_DF, PROCESSED_RATING_DF, top_percentile=10, n=10))
 
-    TMP_USER_ID=15597
     # Test hybrid_rec_sys
-    print(hybrid_rec_sys(TMP_USER_ID, PROCESSED_ANIME_DF, PROCESSED_RATING_DF, PROCESSED_SYNOPSIS_DF,USER_WEIGHTS_PATH, ANIME_WEIGHTS_PATH, USERID_2_ENCODEDUSERID_MAPPING, ENCODEDUSERID_2_USERID_MAPPING, ANIMEID_2_ENCODEDANIMEID_MAPPING, ENCODEDANIMEID_2_ANIMEID_MAPPING, top_percentile=30, user_wts=2.6, content_wts=4.2, num_rec2return=10, num_similar_animes2rec=10))
+    TMP_USER_ID = 7881
+    result = hybrid_rec_sys(
+        TMP_USER_ID, 
+        PROCESSED_ANIME_DF, 
+        PROCESSED_RATING_DF, 
+        PROCESSED_SYNOPSIS_DF, 
+        USER_WEIGHTS_PATH, 
+        ANIME_WEIGHTS_PATH, 
+        USERID_2_ENCODEDUSERID_MAPPING, 
+        ENCODEDUSERID_2_USERID_MAPPING, 
+        ANIMEID_2_ENCODEDANIMEID_MAPPING, 
+        ENCODEDANIMEID_2_ANIMEID_MAPPING,
+        top_percentile=30, 
+        user_wts=0.6, 
+        content_wts=0.4, 
+        num_rec2return=10, 
+        num_similar_animes2rec=10,
+        debug=False  # Set to True to see debug messages
+    )
+    print("Recommendations:", result)
