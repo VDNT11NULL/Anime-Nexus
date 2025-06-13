@@ -72,8 +72,8 @@ class DataIngestion:
             logger.info("Finally, data ingestion finished")
 
 if __name__ == "__main__":
-    print(f"Looking for config at: {os.path.abspath(CONFIG_PATH)}")
+    # print(f"Looking for config at: {os.path.abspath(CONFIG_PATH)}")
+    # print(f"Config contents: {config}")
     config = read_yaml(CONFIG_PATH)
-    print(f"Config contents: {config}")
     data_ingestion = DataIngestion(read_yaml(CONFIG_PATH))
     data_ingestion.run()

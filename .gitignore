@@ -1,3 +1,6 @@
+#APi keys
+*.env
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -15,3 +18,9 @@ Local_notes/
 # Ignore specific files
 notebooks/normalized_embeddings.pt
 notebooks/normalized_embeddings.h5
+
+# Ignore these artifacts, as they are to be managed by another SCM ---> DVC
+artifacts/model 
+artifacts/raw
+artifacts/processed
+artifacts/weights

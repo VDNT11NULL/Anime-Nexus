@@ -12,6 +12,6 @@ model:
   loss: binarycrossentropy
   optimizer: Adam
   metrics : ["mae", "mse"]
-  learning_rate: 0.001
-  epochs: 10
+  learning_rate: 0.003
+  epochs: 2
   batch_size: 128
