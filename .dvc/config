@@ -1,0 +1,4 @@
+[core]
+    remote = mygcp
+['remote "mygcp"']
+    url = gs://my-dvc-bucket11/

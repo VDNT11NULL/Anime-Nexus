@@ -10,3 +10,4 @@ matplotlib
 wordcloud
 comet-ml
 dvc
+dvc-gs
