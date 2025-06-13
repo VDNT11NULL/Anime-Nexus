@@ -1,71 +1,83 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/style.css">
-    <title>Hybrid Anime Recommendation System</title>
-</head>
-<body>
-
-    <div class="form-conatiner">
-        <h2>Welocome, </h2>
-        <form action="/", method="POST">
-            <label for="user_id"> Enter your User ID</label>
-            <input type="number" id="user_id" name="user_id" required>
-            <button type="submit">Generate Recommendations</button>
-        </form>
-
-        {% if recommendations %}
-        <div class="results-container">
-            <h2>Your Anime Recommendations are :-:</h2>
-            <ul>
-                {% for anime in recommendations %}
-                <li>{{ anime }}</li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
-
-
-    </div>
-    
-</body>
-</html>
--->
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hybrid Anime Recommendation System</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Anime Nexus - AI-Powered Anime Recommendations</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
-    <div class="background-overlay"></div>
-    <div class="container">
-        <header>
-            <h1>Hybrid Anime Recommender</h1>
-            <p>Discover your next anime adventure!</p>
-        </header>
-        <div class="form-container">
-            <form id="recommendation-form">
-                <label for="user_id">Enter Your User ID</label>
-                <input type="number" id="user_id" name="user_id" required min="1" placeholder="e.g., 15597">
-                <button type="submit" id="submit-btn">Get Recommendations <i class="fas fa-arrow-right"></i></button>
-            </form>
-            <div id="error-message" class="error-container"></div>
-        </div>
-        <div id="loading" class="loading-spinner">
-            <i class="fas fa-spinner fa-spin"></i> Loading Recommendations...
-        </div>
-        <div id="recommendations" class="recommendations-container"></div>
+    <div class="background-container">
+        <div class="background-layer layer-1"></div>
+        <div class="background-layer layer-2"></div>
+        <div class="background-layer layer-3"></div>
+        <div class="floating-elements" id="floating-elements"></div>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <h1 class="logo">Anime Nexus</h1>
+                <div class="logo-underline"></div>
+            </div>
+            <p class="subtitle">Discover your next masterpiece for bingewatch through our recommendations</p>
+        </header>
+
+        <section class="input-section">
+            <div class="input-card">
+                <div class="card-header">
+                    <h2 class="card-title"><i class="fas fa-user-circle"></i> Enter Your Profile</h2>
+                    <p class="card-description">Let our AI analyze your preferences and discover your perfect anime matches</p>
+                </div>
+                <form id="recommendation-form" class="recommendation-form">
+                    <div class="input-group">
+                        <label for="user_id" class="input-label">User ID</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="user_id" class="input-field" placeholder="Enter your User ID" required>
+                            <div class="input-focus-ring"></div>
+                            <button type="button" class="clear-button" title="Clear input"><i class="fas fa-times"></i></button>
+                        </div>
+                        <div class="input-tooltip" id="input-tooltip"></div>
+                    </div>
+                    <button type="submit" class="submit-button">
+                        Generate Recommendations
+                        <i class="fas fa-arrow-right button-icon"></i>
+                    </button>
+                </form>
+                <div class="error-message" id="error-message"></div>
+            </div>
+        </section>
+
+        <section class="loading-section" id="loading-section">
+            <div class="loading-container">
+                <div class="loading-animation">
+                    <div class="loading-circle"></div>
+                    <div class="loading-circle"></div>
+                    <div class="loading-circle"></div>
+                </div>
+                <h2 class="loading-title">Analyzing Your Preferences</h2>
+                <p class="loading-subtitle">Our AI is finding the perfect anime matches for you...</p>
+                <div class="loading-progress">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="recommendations-section" id="recommendations-section">
+            <div class="section-header">
+                <h2 class="section-title">Your Personalized Recommendations</h2>
+                <p class="section-subtitle">Curated specifically for your taste</p>
+            </div>
+            <div class="recommendations-grid" id="recommendations-grid"></div>
+        </section>
+
+        <button class="back-to-top" id="back-to-top" title="Back to Top">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+    </div>
+
+    <script src="static/script.js"></script>
 </body>
 </html>
