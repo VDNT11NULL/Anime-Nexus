@@ -25,7 +25,7 @@ RUN pip install --no-cache-dir -e .
 #     && apt-get clean && rm -rf /var/lib/apt/lists/*
 # RUN pip install --no-cache-dir torch==1.13.1+cu116 torchvision==0.14.1+cu116 -f https://download.pytorch.org/whl/torch_stable.html
 
-RUN python src/training_pipeline.py
+RUN python pipelines/training_pipeline.py
 
 EXPOSE 5000
 
