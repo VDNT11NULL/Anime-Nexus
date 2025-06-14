@@ -25,11 +25,8 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: ml-app
+    app: anime-rec-sys  
   ports:
   - protocol: TCP
     port: 80
     targetPort: 5000
-
-
-
