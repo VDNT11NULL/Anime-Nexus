@@ -2,6 +2,8 @@ numpy
 pandas
 setuptools
 google-cloud-storage
+joblib
+scikit-learn
 pyyaml
 torch
 seaborn
