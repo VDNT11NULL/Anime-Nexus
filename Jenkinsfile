@@ -5,6 +5,7 @@ pipeline{
         VENV_DIR = 'venv'
         GCP_PROJECT = 'anime-rec-sys'
         GCLOUD_PATH = "/var/jenkins_home/google-cloud-sdk/bin"
+        KUBECTL_AUTH_PLUGIN = "/usr/lib/google-cloud-sdk/bin"
 
     }
 
@@ -66,15 +67,20 @@ pipeline{
             }
         }
 
-        stage('Deployment to Kubernetes') {
-            steps {
-                sh '''
-                    export PATH=$PATH:/var/jenkins_home/google-cloud-sdk/bin
-                    gcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS
-                    gcloud config set project anime-rec-sys
-                    gcloud container clusters get-credentials rec-sys-cluster --region us-central1 --project anime-rec-sys
-                    kubectl apply -f deployment.yaml
-                '''
+        stage('Deploying to Kubernetes'){
+            steps{
+                withCredentials([file(credentialsId:'gcp-key' , variable: 'GOOGLE_APPLICATION_CREDENTIALS' )]){
+                    script{
+                        echo 'Deploying to Kubernetes'
+                        sh '''
+                        export PATH=$PATH:${GCLOUD_PATH}:${KUBECTL_AUTH_PLUGIN}
+                        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+                        gcloud config set project ${GCP_PROJECT}
+                        gcloud container clusters get-credentials rec-sys-cluster --region us-central1 
+                        kubectl apply -f deployment.yaml
+                        '''
+                    }
+                }
             }
         }
 
