@@ -1,6 +1,5 @@
 class AnimeRecommendationSystem {
     constructor() {
-        console.log('Initializing AnimeRecommendationSystem');
         this.form = document.getElementById('recommendation-form');
         this.loadingSection = document.getElementById('loading-section');
         this.errorMessage = document.getElementById('error-message');
@@ -13,15 +12,10 @@ class AnimeRecommendationSystem {
         this.progressBar = document.getElementById('progress-bar');
         this.inputTooltip = document.getElementById('input-tooltip');
         
-        if (!this.form || !this.recommendationsGrid) {
-            console.error('Required DOM elements not found. Check HTML IDs.');
-        }
-        
         this.init();
     }
 
     init() {
-        console.log('Setting up system');
         this.createFloatingElements();
         this.setupEventListeners();
         this.setupParallaxEffect();
@@ -31,7 +25,6 @@ class AnimeRecommendationSystem {
 
     createFloatingElements() {
         const container = document.getElementById('floating-elements');
-        if (!container) return;
         const elementCount = 30;
         
         for (let i = 0; i < elementCount; i++) {
@@ -45,21 +38,14 @@ class AnimeRecommendationSystem {
     }
 
     setupEventListeners() {
-        if (!this.form) return;
         this.form.addEventListener('submit', (e) => this.handleFormSubmit(e));
         const userIdInput = document.getElementById('user_id');
+        userIdInput.addEventListener('input', this.validateInput.bind(this));
         const clearButton = document.querySelector('.clear-button');
-        if (userIdInput) {
-            userIdInput.addEventListener('input', this.validateInput.bind(this));
-        }
-        if (clearButton) {
-            clearButton.addEventListener('click', () => {
-                if (userIdInput) {
-                    userIdInput.value = '';
-                    this.validateInput({ target: userIdInput });
-                }
-            });
-        }
+        clearButton.addEventListener('click', () => {
+            userIdInput.value = '';
+            this.validateInput({ target: userIdInput });
+        });
     }
 
     setupParallaxEffect() {
@@ -92,7 +78,6 @@ class AnimeRecommendationSystem {
 
     setupBackToTop() {
         const backToTop = document.getElementById('back-to-top');
-        if (!backToTop) return;
         window.addEventListener('scroll', () => {
             backToTop.style.display = window.scrollY > 300 ? 'block' : 'none';
         });
@@ -106,16 +91,13 @@ class AnimeRecommendationSystem {
         const isValid = value && parseInt(value) > 0;
         
         e.target.classList.toggle('invalid', !isValid && value !== '');
-        if (this.inputTooltip) {
-            this.inputTooltip.textContent = isValid ? '' : 'Please enter a valid positive User ID';
-            this.inputTooltip.style.display = isValid ? 'none' : 'block';
-        }
+        this.inputTooltip.textContent = isValid ? '' : 'Please enter a valid positive User ID';
+        this.inputTooltip.style.display = isValid ? 'none' : 'block';
         this.hideError();
     }
 
     async handleFormSubmit(e) {
         e.preventDefault();
-        console.log('Form submitted');
         
         const userId = document.getElementById('user_id').value;
         if (!userId || parseInt(userId) <= 0) {
@@ -130,7 +112,6 @@ class AnimeRecommendationSystem {
 
         try {
             const recommendations = await this.fetchRecommendations(userId);
-            console.log('Recommendations received:', recommendations);
             
             if (!recommendations || recommendations.length === 0) {
                 throw new Error('No recommendations found for this user ID');
@@ -147,12 +128,11 @@ class AnimeRecommendationSystem {
     }
 
     startProgressBar() {
-        if (!this.progressBar) return;
         let progress = 0;
         this.progressBar.style.width = '0%';
         this.progressInterval = setInterval(() => {
             progress += Math.random() * 10;
-            if (progress >= 100) progress = 95;
+            if (progress >= 100) progress = 95; // Keep it below 100% until complete
             this.progressBar.style.width = `${progress}%`;
         }, 300);
     }
@@ -160,17 +140,14 @@ class AnimeRecommendationSystem {
     stopProgressBar() {
         if (this.progressInterval) {
             clearInterval(this.progressInterval);
-            if (this.progressBar) {
-                this.progressBar.style.width = '100%';
-                setTimeout(() => {
-                    this.progressBar.style.width = '0%';
-                }, 500);
-            }
+            this.progressBar.style.width = '100%';
+            setTimeout(() => {
+                this.progressBar.style.width = '0%';
+            }, 500);
         }
     }
 
     async fetchRecommendations(userId) {
-        console.log('Fetching recommendations for user ID:', userId);
         const formData = new FormData();
         formData.append('user_id', userId);
 
@@ -184,7 +161,6 @@ class AnimeRecommendationSystem {
         }
 
         const data = await response.json();
-        console.log('Server response:', data);
 
         if (!data.success) {
             throw new Error(data.error || 'Failed to get recommendations');
@@ -394,9 +370,7 @@ class AnimeRecommendationSystem {
     }
 
     async displayRecommendations(recommendations) {
-        if (!this.recommendationsGrid) return;
         this.recommendationsGrid.innerHTML = '';
-        console.log('Displaying recommendations:', recommendations);
         
         const cards = await Promise.all(
             recommendations.map(async (anime, index) => {
@@ -418,7 +392,6 @@ class AnimeRecommendationSystem {
     }
 
     async createAnimeCard(anime, index) {
-        console.log(`Creating card for anime: ${anime}, index: ${index}`);
         const card = document.createElement('div');
         card.className = 'anime-card';
         card.style.animationDelay = `${index * 0.1}s`;
@@ -431,11 +404,8 @@ class AnimeRecommendationSystem {
                 <img src="${imageUrl}" alt="${anime}" class="card-image" loading="lazy" onerror="this.src='${this.generateFallbackImage(anime)}'">
                 <div class="image-overlay"></div>
                 <div class="card-actions">
-                    <a href="https://www.google.com/search?q=${encodeURIComponent(anime + ' site:crunchyroll.com')}" class="watch-button" target="_blank" title="Search on Google for Crunchyroll page">
+                    <a href="https://myanimelist.net/anime.php?q=${encodeURIComponent(anime)}" class="watch-button" target="_blank">
                         <i class="fas fa-play"></i> Watch Now
-                    </a>
-                    <a href="https://myanimelist.net/anime.php?q=${encodeURIComponent(anime)}" class="info-button" target="_blank" title="View on MyAnimeList">
-                        <i class="fas fa-info-circle"></i>
                     </a>
                     <button class="info-button favorite-btn" title="Add to favorites">
                         <i class="fas fa-heart"></i>
@@ -455,67 +425,49 @@ class AnimeRecommendationSystem {
 
         const favoriteBtn = card.querySelector('.favorite-btn');
         favoriteBtn.addEventListener('click', () => {
-            console.log(`Favorite button clicked for ${anime}`);
             favoriteBtn.classList.toggle('active');
         });
-
-        const watchButton = card.querySelector('.watch-button');
-        if (watchButton) {
-            console.log(`Watch Now button created for ${anime} with href: ${watchButton.href}`);
-        }
 
         return card;
     }
 
     showLoading() {
-        if (this.loadingSection) {
-            this.loadingSection.style.display = 'flex';
-            this.loadingSection.classList.add('fade-in');
-        }
+        this.loadingSection.style.display = 'flex';
+        this.loadingSection.classList.add('fade-in');
     }
 
     hideLoading() {
-        if (this.loadingSection) {
-            this.loadingSection.classList.remove('fade-in');
-            setTimeout(() => {
-                this.loadingSection.style.display = 'none';
-            }, 300);
-        }
+        this.loadingSection.classList.remove('fade-in');
+        setTimeout(() => {
+            this.loadingSection.style.display = 'none';
+        }, 300);
     }
 
     showError(message) {
-        if (this.errorMessage) {
-            this.errorMessage.textContent = message;
-            this.errorMessage.style.display = 'block';
-            this.errorMessage.classList.add('fade-in');
-            
-            setTimeout(() => this.hideError(), 5000);
-        }
+        this.errorMessage.textContent = message;
+        this.errorMessage.style.display = 'block';
+        this.errorMessage.classList.add('fade-in');
+        
+        setTimeout(() => this.hideError(), 5000);
     }
 
     hideError() {
-        if (this.errorMessage) {
-            this.errorMessage.classList.remove('fade-in');
-            setTimeout(() => {
-                this.errorMessage.style.display = 'none';
-            }, 300);
-        }
+        this.errorMessage.classList.remove('fade-in');
+        setTimeout(() => {
+            this.errorMessage.style.display = 'none';
+        }, 300);
     }
 
     showRecommendations() {
-        if (this.recommendationsSection) {
-            this.recommendationsSection.style.display = 'block';
-            this.recommendationsSection.classList.add('fade-in');
-        }
+        this.recommendationsSection.style.display = 'block';
+        this.recommendationsSection.classList.add('fade-in');
     }
 
     hideRecommendations() {
-        if (this.recommendationsSection) {
-            this.recommendationsSection.classList.remove('fade-in');
-            setTimeout(() => {
-                this.recommendationsSection.style.display = 'none';
-            }, 300);
-        }
+        this.recommendationsSection.classList.remove('fade-in');
+        setTimeout(() => {
+            this.recommendationsSection.style.display = 'none';
+        }, 300);
     }
 
     clearCache() {
@@ -535,7 +487,6 @@ class AnimeRecommendationSystem {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM loaded, initializing AnimeRecommendationSystem');
     window.animeRecommendationSystem = new AnimeRecommendationSystem();
 });
 
