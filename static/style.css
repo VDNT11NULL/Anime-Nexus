@@ -557,6 +557,7 @@ body {
     height: 50%;
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
     z-index: 1;
+    pointer-events: none; /* Allow clicks to pass through */
 }
 
 .card-content {
@@ -623,6 +624,7 @@ body {
     bottom: 1rem;
     left: 1.5rem;
     right: 1.5rem;
+    z-index: 2; /* Ensure above image-overlay */
 }
 
 .watch-button {
@@ -640,6 +642,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
+    cursor: pointer; /* Explicitly set cursor */
 }
 
 .watch-button:hover {
