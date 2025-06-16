@@ -17,7 +17,7 @@ if __name__=='__main__':
     processor.run()
 
 
-    trainer = ModelTrainer(data_path=PROCESSED_DIR, exp_tracking=True)
+    trainer = ModelTrainer(data_path=PROCESSED_DIR, exp_tracking=False)
     try:
         metrics = trainer.run()
         print(f"Training metrics: {metrics}")       
