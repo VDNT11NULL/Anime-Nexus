@@ -6,10 +6,18 @@ pipeline{
         GCP_PROJECT = 'anime-rec-sys'
         GCLOUD_PATH = "/var/jenkins_home/google-cloud-sdk/bin"
         KUBECTL_AUTH_PLUGIN = "/usr/lib/google-cloud-sdk/bin"
-
     }
 
     stages{
+        stage('Setup Git Config') {
+            steps {
+                script {
+                    echo "Configuring Git to fix ownership issues..."
+                    sh 'git config --global --add safe.directory "*"'
+                }
+            }
+        }
+        
         stage('Cloning from Github....'){
             steps{
                 script{
@@ -34,12 +42,11 @@ pipeline{
             }
         }
 
-
         stage('DVC Pull'){
             steps{
                 withCredentials([file(credentialsId:'gcp-key' , variable: 'GOOGLE_APPLICATION_CREDENTIALS' )]){
                     script{
-                        echo 'DVC Pul....'
+                        echo 'DVC Pull....'
                         sh '''
                         . ${VENV_DIR}/bin/activate
                         dvc pull
@@ -83,6 +90,5 @@ pipeline{
                 }
             }
         }
-
     }
 }
