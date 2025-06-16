@@ -13,4 +13,4 @@ comet-ml
 dvc
 dvc-gs
 flask
-python-dotenv
+python-dotenvgunicorn
