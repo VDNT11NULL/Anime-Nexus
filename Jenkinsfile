@@ -6,18 +6,10 @@ pipeline{
         GCP_PROJECT = 'anime-rec-sys'
         GCLOUD_PATH = "/var/jenkins_home/google-cloud-sdk/bin"
         KUBECTL_AUTH_PLUGIN = "/usr/lib/google-cloud-sdk/bin"
+
     }
 
     stages{
-        stage('Setup Git Config') {
-            steps {
-                script {
-                    echo "Configuring Git to fix ownership issues..."
-                    sh 'git config --global --add safe.directory "*"'
-                }
-            }
-        }
-        
         stage('Cloning from Github....'){
             steps{
                 script{
@@ -42,11 +34,12 @@ pipeline{
             }
         }
 
+
         stage('DVC Pull'){
             steps{
                 withCredentials([file(credentialsId:'gcp-key' , variable: 'GOOGLE_APPLICATION_CREDENTIALS' )]){
                     script{
-                        echo 'DVC Pull....'
+                        echo 'DVC Pul....'
                         sh '''
                         . ${VENV_DIR}/bin/activate
                         dvc pull
@@ -55,19 +48,21 @@ pipeline{
                 }
             }
         }
-        
-        stage('Build and Push Image to GCR') {
-            steps {
-                withCredentials([file(credentialsId: 'gcp-service-account', variable: 'GOOGLE_APPLICATION_CREDENTIALS')]) {
-                    sh '''
-                        export PATH=$PATH:/var/jenkins_home/google-cloud-sdk/bin
-                        cp $GOOGLE_APPLICATION_CREDENTIALS /tmp/service-account-key.json
-                        gcloud auth activate-service-account --key-file=/tmp/service-account-key.json
-                        gcloud config set project anime-rec-sys
+
+        stage('Build and Push Image to GCR'){
+            steps{
+                withCredentials([file(credentialsId:'gcp-key' , variable: 'GOOGLE_APPLICATION_CREDENTIALS' )]){
+                    script{
+                        echo 'Build and Push Image to GCR'
+                        sh '''
+                        export PATH=$PATH:${GCLOUD_PATH}
+                        gcloud auth activate-service-account --key-file=${GOOGLE_APPLICATION_CREDENTIALS}
+                        gcloud config set project ${GCP_PROJECT}
                         gcloud auth configure-docker --quiet
-                        docker build --no-cache -t gcr.io/anime-rec-sys/anime-nexus:latest .
-                        docker push gcr.io/anime-rec-sys/anime-nexus:latest
-                    '''
+                        docker build --no-cache -t gcr.io/${GCP_PROJECT}/anime-nexus:latest .
+                        docker push gcr.io/${GCP_PROJECT}/anime-nexus:latest
+                        '''
+                    }
                 }
             }
         }
@@ -88,5 +83,6 @@ pipeline{
                 }
             }
         }
+
     }
 }
