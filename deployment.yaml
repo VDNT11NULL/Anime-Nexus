@@ -15,6 +15,7 @@ spec:
       containers:
       - name: anime-rec-sys-container
         image: gcr.io/anime-rec-sys/anime-nexus:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 5000  
 ---
