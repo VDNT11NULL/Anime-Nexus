@@ -20,6 +20,13 @@ Below is a visual representation of the Anime Nexus pipeline:
 
 ![Pipeline Overview](assets/Pipeline_workflow_v11_final.png)
 
+### 🌐 Live Demo
+
+✅ You can access the deployed Anime Recommendation Web App at:
+**[http://34.16.69.107](http://34.16.69.107)**
+
+- `NOTE` : The web application may not be accessible via the external IP due to cloud billing constraints. You can deploy it on your own GKE cluster or use the provided Docker image for local or alternative hosting.
+  
 ## Directory Structure
 Here’s the structure of the main project files :
 
@@ -64,7 +71,8 @@ Here’s the structure of the main project files :
 ## Working Demo
 See Anime Nexus in action! Check out the demo video below:
 
-🎥 [Watch the Demo Video](assets/anime_nexus_demo_video.mp4)
+https://github.com/user-attachments/assets/f9d48b68-088c-4b03-8362-6ca72e63ad3a
+<!-->🎥 [Watch the Demo Video](assets/anime_nexus_demo_video.mp4)>
 
 ## Workflow Stages
 
@@ -77,6 +85,9 @@ See Anime Nexus in action! Check out the demo video below:
 - **Functionality**: Processes user ratings and anime metadata using `data_processing.py`. Filters users with at least 5 reviews, normalizes ratings, encodes user/anime IDs, splits data into train/test sets, and processes metadata (genres, scores) for content-based filtering, saving processed files in `artifacts/processed/`.
 
 ### 🤖 Model Training
+
+
+
 - **Tool**: PyTorch
 - **Functionality**: Trains a hybrid model (`base_model.py`) using cosine similarity for collaborative filtering and metadata for content-based filtering. The `training_pipeline.py` script runs locally with GPU support, training embeddings for users and animes, and saves the model to `artifacts/model/`.
 
@@ -111,12 +122,6 @@ See Anime Nexus in action! Check out the demo video below:
 - **Automation**: Jenkins and Docker DinD streamline CI/CD, minimizing manual effort and enabling rapid iteration.
 
 ## Getting Started
-1. Clone the repository:  
    ```bash
    git clone https://github.com/VDNT11NULL/Anime-Nexus.git
    ```
-2. Set up GCP credentials and configure `config.yaml` for bucket access.
-3. Run the pipeline via Jenkins at `http://localhost:8082` or execute each stage manually.
-4. Access the web app at `http://34.16.69.107`.
-
-- `NOTE` : The web application may not be accessible via the external IP due to cloud billing constraints. You can deploy it on your own GKE cluster or use the provided Docker image for local or alternative hosting.
