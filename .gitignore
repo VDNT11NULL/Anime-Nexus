@@ -24,3 +24,5 @@ artifacts/model
 artifacts/raw
 artifacts/processed
 artifacts/weights
+
+anime-nexus-hf-spaces/
