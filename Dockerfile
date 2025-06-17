@@ -1,11 +1,9 @@
-# ✅ Base Python image
+
 FROM python:3.8-slim
 
-# ✅ Environment variables for better Python behavior
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
-# ✅ Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
@@ -13,35 +11,15 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# ✅ Set working directory
 WORKDIR /app
 
-# ✅ Copy required source files only
-COPY application.py .
-COPY setup.py .
-COPY requirements.txt .
+COPY . .
 
-# ✅ Copy folders used by the app
-COPY pipelines/ pipelines/
-COPY src/ src/
-COPY config/ config/
-COPY utils/ utils/
-COPY static/ static/
-COPY templates/ templates/
+RUN pip install --no-cache-dir torch==1.13.1+cpu torchvision==0.14.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
+RUN pip install --no-cache-dir -e .
 
-# ✅ Copy only necessary data artifacts
-COPY artifacts/model/model_checkpoint.pt artifacts/model/
-COPY artifacts/processed artifacts/processed
+RUN python pipelines/training_pipeline.py
 
-# ✅ Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
-
-# ✅ (Optional) Run training script inside build
-# Comment if already trained and using model_checkpoint.pt
-# RUN python pipelines/training_pipeline.py
-
-# ✅ Expose Flask default port
 EXPOSE 5000
 
-# ✅ Command to start Flask app
 CMD ["python3", "application.py"]
