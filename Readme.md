@@ -26,6 +26,12 @@ Below is a visual representation of the Anime Nexus pipeline:
 **[http://34.16.69.107](http://34.16.69.107)**
 
 - `NOTE` : The web application may not be accessible via the external IP due to cloud billing constraints. You can deploy it on your own GKE cluster or use the provided Docker image for local or alternative hosting.
+
+## Working Demo
+See Anime Nexus in action! Check out the demo video below:
+
+https://github.com/user-attachments/assets/f9d48b68-088c-4b03-8362-6ca72e63ad3a
+<!-->🎥 [Watch the Demo Video](assets/anime_nexus_demo_video.mp4)>
   
 ## Directory Structure
 Here’s the structure of the main project files :
@@ -67,12 +73,6 @@ Here’s the structure of the main project files :
     ├── tester.py               # Testing utilities
     └── __init__.py
 ```
-
-## Working Demo
-See Anime Nexus in action! Check out the demo video below:
-
-https://github.com/user-attachments/assets/f9d48b68-088c-4b03-8362-6ca72e63ad3a
-<!-->🎥 [Watch the Demo Video](assets/anime_nexus_demo_video.mp4)>
 
 ## Workflow Stages
 
