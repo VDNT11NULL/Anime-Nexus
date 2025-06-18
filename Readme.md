@@ -4,7 +4,7 @@
 
 Anime Nexus is a sophisticated, production-grade recommendation system that seamlessly blends **collaborative filtering** and **content-based filtering** to deliver personalized anime suggestions. Designed with a robust MLOps pipeline, it ensures scalability, reproducibility, and seamless deployment. Whether you're an anime enthusiast or a platform looking to enhance user engagement, Anime Nexus is built to deliver.
 
-[![Docker Image](https://img.shields.io/badge/Docker-GHCR-blue)](https://ghcr.io/vdnt/anime-nexus:latest)
+[![Docker Image](https://img.shields.io/badge/Docker-GHCR-blue)](https://hub.docker.com/r/vdnt/anime-nexus)
 
 
 ## Project Overview
