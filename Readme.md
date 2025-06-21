@@ -124,4 +124,11 @@ Here’s the structure of the main project files :
 ## Getting Started
    ```bash
    git clone https://github.com/VDNT11NULL/Anime-Nexus.git
+
+   cd Anime-Nexus
+
+   pip install -e .
+
+   python application.py
+   
    ```
