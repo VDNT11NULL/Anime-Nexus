@@ -36,9 +36,8 @@ COPY artifacts/processed artifacts/processed
 # ✅ Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-
 # ✅ Expose Flask default port
 EXPOSE 5000
 
 # ✅ Command to start Flask app
-CMD ["python3", "application.py"]
+CMD ["python", "application.py"]
